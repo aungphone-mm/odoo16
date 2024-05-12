@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem id="menu_hotel_management" name="HMS" web_icon="hlvr_mtw_hms/static/description/icon.png" sequence="6"/>
+    <menuitem id="menu_hotel_management_configuration" name="Configuration" parent="menu_hotel_management"/>
+    <menuitem name="Floor/Villa" id="menu_floor_villa" parent="menu_hotel_management_configuration" sequence="1"/>
+    <menuitem id="menu_hotel_management_system" name="Floor/Villa" parent="menu_floor_villa" sequence="0"
+              action="action_floor_villa"/>
+
+    <menuitem name="Room" id="menu_room_id" parent="menu_hotel_management_configuration" sequence="1"/>
+    <menuitem name="Room Type" id="room_type_menu" parent="menu_room_id" action="action_room_type" sequence="1"/>
+    <menuitem name="Room" id="room_menu" parent="menu_room_id" action="action_room" sequence="0"/>
+    <menuitem name="Room Status" id="room_status_menu" parent="menu_room_id" action="action_room_status" sequence="5"/>
+    <menuitem name="Room Category" id="room_cat_menu" parent="menu_room_id" action="action_room_category" sequence="6"/>
+
+    <menuitem id="menu_rate_parent" name="Rate" parent="menu_hotel_management_configuration"/>
+    <menuitem id="menu_rate" name="Rate" parent="menu_rate_parent" action="action_room_rate"/>
+
+
+    <menuitem name="Transaction" id="transaction_menu_parent" parent="menu_hotel_management_configuration"/>
+    <menuitem name="Transaction" id="transaction_menu" parent="transaction_menu_parent" action="action_transaction"/>
+
+    <menuitem name="Individual" id="individual_menu_parent" parent="menu_hotel_management_configuration"/>
+
+    <!-- Nrc menu start-->
+    <menuitem id="nrc_info_id" name="NRC " sequence="100" parent="menu_hotel_management_configuration"/>
+
+    <menuitem action="action_nrc_number" id="nrc_number" name="Number" sequence="1" parent="nrc_info_id"/>
+
+    <menuitem action="action_nrc_Description_new" id="nrc_Description" name="Description" sequence="3"
+              parent="nrc_info_id"/>
+
+    <menuitem action="action_nrc_type" id="nrc_type" name="Type" sequence="2" parent="nrc_info_id"/>
+    <!-- Nrc end-->
+    <menuitem name="Business Source" id="business_source_menu" parent="individual_menu_parent"
+              action="action_source_business"/>
+    <menuitem name="Nationality" id="national_menu" parent="individual_menu_parent" action="action_national"/>
+    <menuitem name="Identification Type" id="identification_type_menu" parent="individual_menu_parent"
+              action="action_identification_type"/>
+
+    <menuitem id="menu_hotel_reservation_menu" name="Reservation" parent="menu_hotel_management" sequence="0"/>
+    <menuitem id="menu_hotel_reservation" name="Reservation" action="action_reservation"
+              parent="menu_hotel_reservation_menu"/>
+    <menuitem name="Guests" id="guest_inherit_menu" parent="menu_hotel_reservation_menu"
+              action="account.res_partner_action_customer"/>
+
+    <menuitem name="Folio" id="menu_hms_folio" parent="menu_hotel_management" sequence="1" action="action_hms_folio"/>
+</odoo>

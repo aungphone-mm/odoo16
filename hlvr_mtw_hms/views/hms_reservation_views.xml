@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_reservation_tree" model="ir.ui.view">
+            <field name="name">reservation.tree</field>
+            <field name="model">hms.reservation</field>
+            <field name="arch" type="xml">
+                <tree string="reservation">
+                    <field name="name"/>
+                    <field name="guest_id"/>
+                    <field name="company_id"/>
+                    <field  name="agent_id" />
+                    <field name='date'/>
+                    <field name='rate'/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_reservation_form" model="ir.ui.view">
+            <field name="name">Reservation</field>
+            <field name="model">hms.reservation</field>
+            <field name="arch" type="xml">
+                <form string="Rate">
+                    <header>
+                        <field name="status" widget="statusbar" />
+                        <button name="action_cancel" string="Cancel Reservation" type="object" class="oe_highlight" attrs="{'invisible':[('status','!=','confirmed')]}"/>
+                        <button name="action_confirmed" string="Confirmed" type="object" class="oe_highlight" attrs="{'invisible':[('status','!=','draft')]}"/>
+                        <button name="action_reset" string="Reset to Draft" type="object" class="oe_highlight" attrs="{'invisible':[('status','!=','cancel')]}"/>
+
+                    </header>
+                    <sheet>
+                        <group>
+                            <group name="general_information" string="General Information">
+                                <field name="name"/>
+                                <field name="guest_id"/>
+
+                                <label for="nrc_no" string="Identification" class="oe_inline"/>
+                                <div style="display: flex; align-items: center;">
+                                    <field name="nrc_number"/>
+                                    <field name="nrc_desc"/>
+                                    <field name="nrc_code"/>
+                                    <field name="nrc_no" class="oe_inline" placeholder="123456..."/>
+                                </div>
+                                <field name="identification_type"/>
+                            </group>
+                            <group name="company_information" string="Company Information">
+                                <field name="company_id"/>
+                                <field name="source_business"/>
+                                <field name="agent_id" />
+                                <label for="deposit"/>
+                                <div class="o_row">
+                                    <field name="deposit" widget="boolean_toggle"/>
+                                    <button string="Register Payment" class="btn-info" type="object"
+                                            name="register_payment"/>
+                                </div>
+                                <field name='rate'/>
+                            </group>
+                        </group>
+                        <button name="find_free_rooms" string="Auto Assign Rooms" type="object" class="btn-warning"/>
+                        <notebook>
+                            <page name="reservation" string="Reservation Line">
+                                <field name='reserv_line_id'>
+                                    <tree editable="True">
+                                        <field name="room_type"/>
+                                        <field name="guest" widget="number_selection_widget" options="{'step': 1, 'min': 0, 'max': 10}"/>
+                                        <field name="arrival_at"/>
+                                        <field name="depart_at"/>
+                                        <field name="reserv"/>
+                                        <field name="rate"/>
+                                        <field name="breakfast"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="reservation" string="Room">
+                                <field name='reserv_room_line_id'>
+                                    <tree editable="True">
+                                        <field name="room_type"/>
+                                        <field name="room"/>
+                                        <field name="guest" widget="number_selection_widget" options="{'step': 1, 'min': 0, 'max': 10}"/>
+                                        <field name="arrival_at"/>
+                                        <field name="depart_at"/>
+                                        <field name="rate"/>
+                                        <field name="night"/>
+                                        <field name="price"/>
+                                        <field name="subtotal"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <div>
+                            <field name="note" placeholder="Notes..."/>
+                        </div>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'open_attachments': True}"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_reservation" model="ir.actions.act_window">
+            <field name="name">Reservation</field>
+            <field name="res_model">hms.reservation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- NRC start aung phone-->
+        <record id="view_employee_nrc_number_tree" model="ir.ui.view">
+            <field name="name">NRC Number</field>
+            <field name="model">hms.guest.nrc.number</field>
+            <field name="arch" type="xml">
+                <tree string="NRC">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_employee_nrc_number_form" model="ir.ui.view">
+            <field name="name">View NRC Number Form</field>
+            <field name="model">hms.guest.nrc.number</field>
+            <field name="arch" type="xml">
+                <form string="NRC">
+                    <goup>
+                        <field name="name"/>
+                    </goup>
+
+                </form>
+            </field>
+        </record>
+        <record id="view_employee_nrc_Description_tree_new" model="ir.ui.view">
+            <field name="name">View NRC Tree</field>
+            <field name="model">hms.guest.nrc.description</field>
+            <field name="arch" type="xml">
+                <tree string="NRC List">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_employee_nrc_description_form" model="ir.ui.view">
+            <field name="name">View NRC Form</field>
+            <field name="model">hms.guest.nrc.description</field>
+            <field name="arch" type="xml">
+                <form string="NRC List">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="view_employee_nrc_type_tree" model="ir.ui.view">
+            <field name="name">NRC Type</field>
+            <field name="model">hms.guest.nrc.type</field>
+            <field name="arch" type="xml">
+                <tree string="NRC">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_nrc_number" model="ir.actions.act_window">
+            <field name="name">Employee NRC Number</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hms.guest.nrc.number</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_employee_nrc_number_tree"/>
+        </record>
+
+        <record id="action_nrc_Description_new" model="ir.actions.act_window">
+            <field name="name">Employee NRC Description</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hms.guest.nrc.description</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_employee_nrc_Description_tree_new"/>
+        </record>
+
+        <record id="action_nrc_type" model="ir.actions.act_window">
+            <field name="name">NRC Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hms.guest.nrc.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_employee_nrc_type_tree"/>
+        </record>
+        <!-- Nrc end -->
+        <record id="view_source_business_tree" model="ir.ui.view">
+            <field name="name">Business Source Tree</field>
+            <field name="model">hms.guest.business.source</field>
+            <field name="arch" type="xml">
+                <tree string="Source Business">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="description"/>
+                    <field name="rate"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_source_business_form" model="ir.ui.view">
+            <field name="name">Business Source Form</field>
+            <field name="model">hms.guest.business.source</field>
+            <field name="arch" type="xml">
+                <form string="Source Business">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="description"/>
+                            <field name="rate"/>
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="action_source_business" model="ir.actions.act_window">
+            <field name="name">Business Source</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hms.guest.business.source</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_source_business_tree"/>
+        </record>
+
+        <record id="view_hms_reservation_room_line_form" model="ir.ui.view">
+            <field name="name">hms.reservation.room.line.form</field>
+            <field name="model">hms.reservation.room.line</field>
+            <field name="arch" type="xml">
+                <form string="Reservation Room Line">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="reserv_line_id" readonly="1" />
+                                <field name="room" readonly="1" />
+                                <!-- other fields -->
+                            </group>
+                            <group>
+
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hms_reservation_room_line_tree" model="ir.ui.view">
+            <field name="name">hms.reservation.room.line.tree</field>
+            <field name="model">hms.reservation.room.line</field>
+            <field name="arch" type="xml">
+                <tree string="Reservation Room Lines" editable="bottom">
+                    <field name="reserv_line_id" readonly="1"/>
+                    <field name="rate" readonly="1"/>
+                    <field name="night" readonly="1"/>
+                    <field name="arrival_at" readonly="1"/>
+                    <field name="depart_at" readonly="1"/>
+<!--                    <field name="room" readonly="1"/>-->
+                    <!-- other fields -->
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action for hms.reservation.room.line -->
+        <record id="action_hms_reservation_room_line" model="ir.actions.act_window">
+            <field name="name">Reservation Room Lines</field>
+            <field name="res_model">hms.reservation.room.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Reservation Room Line!
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
+

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+    <template id="reservation_report_template">
+        <main>
+            <t t-foreach="docs" t-as="o">
+                <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                    t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <div class="row col-12">
+                        <div class="col-6">
+                            <t t-if="not company">
+                                <!-- Multicompany -->
+                            <t t-if="company_id">
+                                <t t-set="company" t-value="company_id" />
+                                </t>
+                                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                                    <t t-set="company" t-value="o.company_id.sudo()" />
+                                </t>
+                                <t t-else="else">
+                                    <t t-set="company" t-value="res_company" />
+                                </t>
+                            </t>
+                            <div style="width: 100%;text-align:left;" class="mt-0 mb-0">
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                    style="max-height: 160px;" alt="Logo" />
+                            </div>
+                            <t t-if="o.name">
+                                <span t-esc="o.name"/>
+                            </t>
+                        </div>
+                        <div class="col-6">
+<!--                            <p style="font-size:15px;padding-right:8px;">-->
+<!--                                Guest Name <span t-field="o.guest_id.name"/>-->
+<!--                            </p>-->
+<!--                            <p style="font-size:15px;padding-right:8px;">-->
+<!--                                Identification-->
+<!--                            </p>-->
+<!--                            <p style="font-size:15px;padding-right:8px;">-->
+<!--                                Company<span t-field="o.company_id.name"/>-->
+<!--                            </p>-->
+<!--                            <p style="font-size:15px;padding-right:8px;">-->
+<!--                                Agent<span t-field="o.agent_id.name"/>-->
+<!--                            </p>-->
+                            <table style="border: 0px;">
+                                    <tr height="20pt;" style="border:none">
+                                        <th  name="th_guest_name" class="text-left" style="padding: 10px 20px 10px 20px;width:12%;border:none"><span>Guest Name</span></th>
+                                    </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br></br>
+                    <table class="table table-responsive" style="margin-top:20px;">
+                        <thead style="border:none;">
+                            <tr height="20pt;">
+                                <th name="th_room_type" class="text-center" style="padding: 10px 20px 10px 20px;width:12%;border: 1px solid #87888a;"><span>Room Type</span></th>
+                                <th name="th_guest" class="text-center" style="padding: 10px 20px 10px 20px;width:12%;border: 1px solid #87888a;"><span>Guests</span></th>
+                                <th name="th_arrival" class="text-center" style="padding: 10px 20px 10px 20px;width:12%;border: 1px solid #87888a;"><span>Arrival At</span></th>
+                                <th name="th_departure" class="text-center" style="padding: 10px 20px 10px 20px; width:12%;border: 1px solid #87888a;"><span>Departure At</span></th>
+                            </tr>
+                        </thead>
+                        <tbody style="border:none;">
+                            <t t-foreach="o.reserv_room_line_id" t-as="line">
+                                <tr style="border: 2px solid grey;">
+                                    <td style="border: 2px solid grey;"><span t-field="line.room_type"/></td>
+                                    <td style="border: 2px solid grey;"><span t-field="line.guest"/></td>
+                                    <td style="border: 2px solid grey;"><span t-field="line.arrival_at"/></td>
+                                    <td style="border: 2px solid grey;"><span t-field="line.depart_at"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <br></br>
+                    <div class="row col-12">
+                        <div class="col-9">
+                            <p style="font-size:20px;padding-right:8px;">
+                                Note
+                            </p>
+                            <span t-field="o.note"/>
+                        </div>
+                        <div class="col-3">
+                            <p style="font-size:20px;padding-right:8px;">
+                                Received/Enrolled by
+                            </p>
+                            <t t-esc="request.env.user.name"/>
+                            <p class="m-0" t-esc="(datetime.datetime.now())"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </main>
+    </template>
+    <template id="reservation_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="hlvr_mtw_hms.reservation_report_template"/>
+            </t>
+        </t>
+    </template>
+    </data>
+</odoo>

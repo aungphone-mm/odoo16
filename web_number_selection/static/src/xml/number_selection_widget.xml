@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="NumberSelectionWidget" owl="1">
+        <div class="o_number_selection_widget">
+            <input class="o_input o_number_selection_input" t-ref="input_number" type="number"
+                   t-att-placeholder="props.placeholder"
+                   t-att-value="state.value"
+                   t-on-input="onInputValueChange"
+                   t-att-min="props.min"
+                   t-att-max="props.max"
+                   t-att-step="props.step"
+            />
+        </div>
+    </t>
+</templates>
+
+<!--
+    Example of calling widget from View file
+    <field name="testing" widget="number_selection_widget" options="{'step': 0.25, 'min': 0, 'max': 10}" />
+-->

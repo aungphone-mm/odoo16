@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- Room Type Actions and Views-->
+        <record id="view_room_type_form" model="ir.ui.view">
+            <field name="name">room_type Form</field>
+            <field name="model">hms.room.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code1"/>
+                                <field name="base_adult" widget="number_selection_widget"
+                                       options="{'step': -1, 'min': 0, 'max': 10}"/>
+                                <field name="base_child" widget="number_selection_widget"
+                                       options="{'step': -1, 'min': 0, 'max': 10}"/>
+                            </group>
+                            <group>
+                                <field name="sequence"/>
+                                <field name="color" widget="color"/>
+                                <field name="max_adult" widget="number_selection_widget"
+                                       options="{'step': -1, 'min': 0, 'max': 10}"/>
+                                <field name="max_child" widget="number_selection_widget"
+                                       options="{'step': -1, 'min': 0, 'max': 10}"/>
+                                <field name="total_rooms"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Current Rate">
+                                <field name="room_type_line_ids">
+                                    <tree editable="True">
+                                        <field name="name"/>
+                                        <field name="currency"/>
+                                        <field name="amount"/>
+                                        <button name="set_revenue" string="Break Down" type="object"
+                                                class="oe_highlight"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Room">
+                                <field name="room_ids">
+                                    <tree editable="True">
+                                        <field name="name"/>
+<!--                                        <field name="status"/>-->
+                                        <field name="room_category"/>
+                                        <field name="floor_villa_id"/>
+                                        <field name="room_type"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'open_attachments': True}"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_room_type_tree" model="ir.ui.view">
+            <field name="name">room_type List</field>
+            <field name="model">hms.room.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code1"/>
+                    <field name="base_adult"/>
+                    <field name="base_child"/>
+                    <field name="sequence"/>
+                    <field name="color"/>
+                    <field name="total_rooms"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id='action_room_type' model='ir.actions.act_window'>
+            <field name="name">Room Type</field>
+            <field name="res_model">hms.room.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Room Actions and Views-->
+        <record id="view_room_form" model="ir.ui.view">
+            <field name="name">Room</field>
+            <field name="model">hms.room</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="room_type"/>
+                                 <field name="product_id"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                                <field name="floor_villa_id"/>
+                                <field name="room_category"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Room Images" name="room_images_tab">
+                                <field name="room_images" widget="one0many_list">
+                                    <tree editable="True">
+                                        <field name="image" widget="image" class="oe_avatar m-2 margin-left"
+                                               options="{&quot;zoom&quot;: true, &quot;preview_image&quot;:&quot;avatar_128&quot;}"/>
+                                        <field name="name"/>
+                                        <field name="created_at"/>
+                                    </tree>
+                                </field>
+                            </page>
+<!--                            <page name="accounting" string="Accounting">-->
+<!--                                <group>-->
+<!--                                    <group string="Income and Expense Accounts">-->
+<!--                                        <field name="income_account_id"/>-->
+<!--                                        <field name="expense_account_id"/>-->
+<!--                                    </group>-->
+<!--                                </group>-->
+<!--                            </page>-->
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'open_attachments': True}"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_room_tree" model="ir.ui.view">
+            <field name="name">Room</field>
+            <field name="model">hms.room</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="room_type"/>
+                    <field name="code"/>
+                    <field name="description"/>
+                    <field name="floor_villa_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id='action_room' model='ir.actions.act_window'>
+            <field name="name">Room</field>
+            <field name="res_model">hms.room</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Room Status Actions and Views-->
+        <record id="view_room_status_tree" model="ir.ui.view">
+            <field name="name">room_status Tree</field>
+            <field name="model">hms.room.status</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_room_status" model="ir.actions.act_window">
+            <field name="name">Room Status</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hms.room.status</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_room_status_tree"/>
+        </record>
+
+        <!-- Room Category Actions and Views-->
+        <record id="view_room_category_tree" model="ir.ui.view">
+            <field name="name">room_category Tree</field>
+            <field name="model">hms.room.category</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_room_category" model="ir.actions.act_window">
+            <field name="name">Room Category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hms.room.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_room_category_tree"/>
+        </record>
+
+    </data>
+</odoo>

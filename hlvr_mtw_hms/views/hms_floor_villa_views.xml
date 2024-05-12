@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--Floor and Villa Tree View-->
+        <record id="view_floor_villa_tree" model="ir.ui.view">
+            <field name="name">hms.floor.villa.tree</field>
+            <field name="model">hms.floor.villa</field>
+            <field name="arch" type="xml">
+                <tree string="Floor OR Villa">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="floor_villa"/>
+                    <field name="sequence"/>
+                    <field name="total_room"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Floor and Villa Form View-->
+        <record id="view_floor_villa_form" model="ir.ui.view">
+            <field name="name">Floor OR Villa</field>
+            <field name="model">hms.floor.villa</field>
+            <field name="arch" type="xml">
+                <form string="Floor OR Villa">
+                    <header>
+                        <button name="action_available" status="available" string="Available" type="object" class="oe_highlight"/>
+                        <button type="object" name="action_out_of_order" string="Out Of Order" status="out_of_order" class="oe_highlight"/>
+                        <field name ='status' widget="statusbar" statusbar_visible="available,out_of_order"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="floor_villa" widget="radio"/>
+                            </group>
+                            <group>
+                                <field name="sequence" widget="number_selection_widget" options="{'step': 1, 'min': 0, 'max': 10}"/>
+                                <field name="total_room"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="room" string="Rooms">
+                                <field name="room_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'open_attachments': True}"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!--Action for Floor and Villa-->
+        <record id="action_floor_villa" model="ir.actions.act_window">
+            <field name="name">Floor Or Villa</field>
+            <field name="res_model">hms.floor.villa</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+</odoo>

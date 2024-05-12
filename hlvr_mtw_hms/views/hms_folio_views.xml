@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--Floor and Villa Tree View-->
+        <record id="view_hms_folio_tree" model="ir.ui.view">
+            <field name="name">hms.folio.tree</field>
+            <field name="model">hms.folio</field>
+            <field name="arch" type="xml">
+                <tree string="Folio">
+                    <field name="name"/>
+                    <field name="guest_id"/>
+                    <field name="reservation_no"/>
+                    <field name="company_id"/>
+                    <field name="amount_due"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Floor and Villa Form View-->
+        <record id="view_hms_folio_form" model="ir.ui.view">
+            <field name="name">Folio</field>
+            <field name="model">hms.folio</field>
+            <field name="arch" type="xml">
+                <form string="Folio">
+                    <header>
+                        <button name="action_confirm" status="confirm" string="Confirm" type="object" class="oe_highlight"/>
+                        <button type="object" name="action_check_in_out" string="Check In/Out" status="check_in_out" class="oe_highlight"/>
+                        <field name ='status' widget="statusbar" statusbar_visible="confirm,check_in_out"/>
+                    </header>
+                    <sheet>
+                        <field name="name" nolable="1"/>
+                        <group >
+                            <group string="General Information">
+                                <field name="guest_id" widget="res_partner_many2one"
+                                context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}"/>
+                                <field name="reservation_no"/>
+                                <label for="nrc_no" string="Identification" class="oe_inline"/>
+                                <div style="display: flex; align-items: center;">
+                                    <field name="nrc_number"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"
+                                           class="oe_inline nrc_no" widget="selection"/>
+                                    <field name="nrc_desc"
+                                           options="{'no_create': True, 'no_create_edit':True, 'no_open':True}"
+                                           class="oe_inline nrc_desc "/>
+                                    <field name="nrc_code" options="{'no_create': True, 'no_create_edit':True}"
+                                           class="oe_inline nrc_code" widget="selection"/>
+                                    <field name="nrc_no" class="oe_inline" placeholder="123456..."/>
+                                </div>
+                                <field name="identification_type"/>
+                                <field name="rate"/>
+                                <field name="main_folio_no"/>
+                            </group>
+                            <group string="Company Information">
+                                <field name="company_id"/>
+                                <field name="business_source"/>
+                                <field name="agent_id"/>
+                                <label for="deposit"/>
+                                <div class="o_row">
+                                    <field name="deposit" widget="boolean_toggle"/>
+                                    <button string="Register Payment" class="btn-info" type="object"
+                                            name="register_payment"/>
+                                </div>
+                                <field name="amount_due"/>
+                                <field name="main_folio"/>
+                            </group>
+                            <group string="Room Information">
+                                <field name="room"/>
+                                <field name="room_type"/>
+                                <field name="floor_villa_id"/>
+                                <field name="total_guests"/>
+                            </group>
+                            <group string="Arrival/Departure Information">
+                                <field name="arrival_at"/>
+                                <field name="departure_at"/>
+                                <field name="total_day"/>
+                                <field name="related_folios"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="room" string="Related Folio">
+                                <field name="folio_ids">
+                                    <tree>
+                                        <field name="line_name"/>
+                                        <field name="guest_id"/>
+                                        <field name="identification_id"/>
+                                        <field name="identification_type"/>
+                                        <field name="room"/>
+                                        <field name="room_type"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'open_attachments': True}"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_hms_folio" model="ir.actions.act_window">
+            <field name="name">HMS Folio</field>
+            <field name="res_model">hms.folio</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_hms_folio_line_form" model="ir.ui.view">
+            <field name="name">Folio Line</field>
+            <field name="model">hms.folio.line</field>
+            <field name="arch" type="xml">
+                <form string="Folio Line">
+                    <group>
+                        <group string="General Information">
+                            <field name="line_name"/>
+                            <field name="guest_id"/>
+                            <field name="identification_id"/>
+                            <field name="identification_type"/>
+                            <field name="rate"/>
+                            <field name="main_folio_no"/>
+                        </group>
+                        <group name="Company Information">
+                            <field name="company_id"/>
+                                <field name="business_source"/>
+                                <field name="agent_id"/>
+                                <label for="deposit"/>
+                                <div class="o_row">
+                                    <field name="deposit" widget="boolean_toggle"/>
+                                    <button string="Register Payment" class="btn-info" type="object"
+                                            name="register_payment"/>
+                                </div>
+                                <field name="amount_due"/>
+                                <field name="main_folio"/>
+                        </group>
+                        <group string="Room Information">
+                            <field name="room"/>
+                            <field name="room_type"/>
+                            <field name="floor_villa_id"/>
+                        </group>
+                        <group string="Arrival/Departure Information">
+                                <field name="arrival_at"/>
+                                <field name="departure_at"/>
+                                <field name="total_day"/>
+                            </group>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

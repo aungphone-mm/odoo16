@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_room_rate_tree" model="ir.ui.view">
+            <field name="name">hms.room.rate.tree</field>
+            <field name="model">hms.room.rate</field>
+            <field name="arch" type="xml">
+                <tree string="Rate">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="floor_villa"/>
+                    <field name="from_date"/>
+                    <field name='to_date'/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_room_rate_form" model="ir.ui.view">
+            <field name="name">Rate</field>
+            <field name="model">hms.room.rate</field>
+            <field name="arch" type="xml">
+                <form string="Rate">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="floor_villa"/>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="from_date"/>
+                                    <field name="hours" widget="boolean_toggle"/>
+                                    <field name="weekend" widget="boolean_toggle"/>
+                                </group>
+                                <group>
+                                    <field name="to_date"/>
+                                    <field name="hours_day"/>
+                                </group>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="rate" string="Rate">
+                                <field name='rate_ids'>
+                                    <tree editable="True">
+                                        <field name="name"/>
+                                        <field name="room_type"/>
+                                        <field name="currency"/>
+                                        <field name="amount"/>
+                                        <button name="set_revenue" string="Break Down" type="object"
+                                                class="oe_highlight"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <div>
+                            <field name="description" placeholder="Notes..."/>
+                        </div>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'open_attachments': True}"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_room_rate" model="ir.actions.act_window">
+            <field name="name">Rate</field>
+            <field name="res_model">hms.room.rate</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>
